@@ -1,7 +1,7 @@
 type RGB {
-	r: int8;
-	g: int8;
-	b: int8;
+	r: uint8;
+	g: uint8;
+	b: uint8;
 }
 
 type {

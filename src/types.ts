@@ -21,7 +21,7 @@ export var TYPES: Types = {
     read(buffer: Buffer, offset: number) {
       return {
         result : buffer.readUInt16BE(offset),
-        offset : 1,
+        offset : 2,
       };
     }
   },

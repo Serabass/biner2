@@ -5,12 +5,22 @@ export interface BinerTypeField {
   type: string;
 }
 
+export interface BinerArrayField {
+  name: string;
+  array: {
+    of: string;
+    length: number;
+  }
+}
+
+export type BinerField = BinerTypeField | BinerArrayField;
+
 export interface BinerScalarType {
   typename: string;
 }
 
 export interface BinerType {
-  fields: BinerTypeField[];
+  fields: BinerField[];
 }
 
 export interface BinerConfig {
@@ -44,8 +54,20 @@ export class Biner {
         let {fields} = type as BinerType;
     
         for (let field of fields) {
-          var res = this.read(field.type);
-          result[field.name] = res;
+          if ((field as BinerArrayField).array) {
+            let l = (field as BinerArrayField).array.length;
+            let array = [];
+
+            for (let i = 0; i < l; i++) {
+              let res = this.read((field as BinerArrayField).array.of);
+              array.push(res);
+            }
+
+            result[field.name] = array;
+          } else {
+            let res = this.read((field as BinerTypeField).type);
+            result[field.name] = res;
+          }
         }
       }
     }
