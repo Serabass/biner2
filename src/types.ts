@@ -1,7 +1,6 @@
 
 export interface Types {
   [key: string]: {
-    size?: number;
     read(buffer: Buffer, offset: number): {
       result: any;
       offset: number;
@@ -11,7 +10,6 @@ export interface Types {
 
 export var TYPES: Types = {
   uint8: {
-    size: 1,
     read(buffer: Buffer, offset: number) {
       return {
         result : buffer.readUInt8(offset),
@@ -20,7 +18,6 @@ export var TYPES: Types = {
     }
   },
   uint16: {
-    size: 2,
     read(buffer: Buffer, offset: number) {
       return {
         result : buffer.readUInt16BE(offset),
@@ -29,7 +26,6 @@ export var TYPES: Types = {
     }
   },
   uint32: {
-    size: 4,
     read(buffer: Buffer, offset: number) {
       return {
         result : buffer.readUInt32BE(offset),
@@ -39,10 +35,9 @@ export var TYPES: Types = {
   },
   fstring8: {
     read(buffer: Buffer, offset: number) { // TODO Use Buffer.alloc instead
-      let length = buffer.readUInt8();
+      let length = buffer.readUInt8(offset);
       let result = '';
-
-      console.log(length);
+ 
       for (let i = 1; i <= length; i++) {
         let byte = buffer.readUInt8(offset + i);
         result += String.fromCharCode(byte);

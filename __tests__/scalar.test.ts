@@ -50,4 +50,17 @@ describe('Scalar values', () => {
     const biner = new Biner(config, buffer);
     expect(Math.floor(biner.parse() * 100) / 100).toEqual(0.1);
   });
+
+  it("fstring8", () => {
+    var config: BinerConfig = {
+      types: {
+        '': {
+          typename: 'fstring8'
+        } as BinerScalarType,
+      },
+    };
+    let buffer=  Buffer.from([0x03, 0x31, 0x32, 0x33]);
+    const biner = new Biner(config, buffer);
+    expect(biner.parse()).toEqual('123');
+  });
 });
